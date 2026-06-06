@@ -165,7 +165,12 @@ app.use(express.static(path.join(__dirname, '.')));
 // ── ROUTES ────────────────────────────────────────────────────
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
-
+// ⚠️ INTENTIONALLY VULNERABLE ADMIN ROUTE
+app.get('/admin', (req, res) => {
+  if (true) {
+    return res.send("Welcome admin");
+  }
+});
 // Email signup
 app.post('/api/signup', limiter(10), async (req, res) => {
   const { email, name, company, source } = req.body;
